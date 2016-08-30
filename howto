@@ -1,0 +1,92 @@
+
+
+docker-compose -f docker-compose.yml build
+docker-compose -f docker-compose.yml up -d
+
+# Create initial certificates
+
+mkdir /vol/certs
+mkdir /vol/letsencrypt
+#docker up --build
+#docker run --rm -it letsencryptenote_letsencrypt-enote_1 bash -il
+docker exec -i -t letsencryptenote_letsencrypt-enote_1 bash
+
+suffix=-staging.compute.dtu.dk
+domains=( "stackedit$suffix" "couchdb$suffix" "01005$suffix" "01006$suffix" "02402$suffix" "askbot-01005$suffix" "askbot-01006$suffix" "askbot-02402$suffix" "enote$suffix" "quiz$suffix" "letsencrypt$suffix"  "askbot$suffix" )
+
+suffix=.compute.dtu.dk
+domains=( "stackedit$suffix" "couchdb$suffix" "01005new$suffix" "01006new$suffix" "02402new$suffix" "askbot-01005$suffix" "askbot-01006$suffix" "askbot-02402$suffix" "enote$suffix" "quiz$suffix" "letsencrypt$suffix"  "askbot$suffix" )
+
+# asymmetries
+# prod:
+# <course>new instead of <course>
+# letsencrypt-enote instead of letsencrypt
+# staging
+# no quiz-staging
+
+raw_domains=(
+"01005new.compute.dtu.dk"
+"01006new.compute.dtu.dk"
+"02402new.compute.dtu.dk"
+"01005-staging.compute.dtu.dk"
+"01005-staging.compute.dtu.dk"
+"02402-staging.compute.dtu.dk"
+"askbot-staging.compute.dtu.dk"
+"quiz.compute.dtu.dk"
+"quiz-staging.compute.dtu.dk"
+"couchdb-staging.compute.dtu.dk"
+"enote-staging.compute.dtu.dk"
+"letsencrypt-enote.compute.dtu.dk"
+"letsencrypt-staging.compute.dtu.dk"
+"stackedit-staging.compute.dtu.dk"
+"stackedit.compute.dtu.dk" )
+
+
+cd /letsencrypt
+
+for d in "${domains[@]}"
+do
+  echo $d
+  ./letsencrypt-auto --agree-tos --email mttj@dtu.dk --non-interactive certonly --expand --webroot -w /var/www/letsencrypt -d $d
+done
+
+
+exit
+
+suffix=-staging.compute.dtu.dk
+domains=( "stackedit$suffix" "couchdb$suffix" "01005$suffix" "01006$suffix" "02402$suffix" "askbot-01005$suffix" "askbot-01006$suffix" "askbot-02402$suffix" "enote$suffix" "quiz$suffix" "letsencrypt$suffix"  "askbot$suffix" )
+
+suffix=.compute.dtu.dk
+domains=( "stackedit$suffix" "couchdb$suffix" "01005new$suffix" "01006new$suffix" "02402new$suffix" "askbot-01005$suffix" "askbot-01006$suffix" "askbot-02402$suffix" "enote$suffix" "quiz$suffix" "letsencrypt$suffix"  "askbot$suffix" )
+
+for d in "${domains[@]}"
+do
+  echo $d
+  mkdir /vol/certs/$d
+  cp /vol/letsencrypt/live/$d/* /vol/certs/$d/
+done
+
+
+docker-compose -f docker-compose.yml kill
+
+
+# To renew certs
+
+Docker exec letsencrypt-enote
+
+certbot renew
+exit
+
+suffix=-staging.compute.dtu.dk
+domains=("stackedit$suffix" "couchdb$suffix" "01005$suffix" "02402$suffix" "enote$suffix" "letsencrypt$suffix"  "letsencrypt$suffix" "file-manager$suffix" "file-admin$suffix")
+
+for d in "${domains[@]}"
+do
+  echo $d
+  mkdir /vol/certs/$d
+  cp /vol/letsencrypt/live/$d/* /vol/certs/$d/
+done
+
+Docker exec rev-proxy   nginx -S reload
+
+
