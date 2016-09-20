@@ -9,7 +9,7 @@ mkdir /vol/certs
 mkdir /vol/letsencrypt
 #docker up --build
 #docker run --rm -it letsencryptenote_letsencrypt-enote_1 bash -il
-docker exec -i -t letsencryptenote_letsencrypt-enote_1 bash
+docker exec -i -t dtuenote_letsencrypt-enote_1 bash
 
 suffix=-staging.compute.dtu.dk
 domains=( "stackedit$suffix" "couchdb$suffix" "01005$suffix" "01006$suffix" "02402$suffix" "askbot-01005$suffix" "askbot-01006$suffix" "askbot-02402$suffix" "enote$suffix" "quiz$suffix" "letsencrypt$suffix"  "askbot$suffix" )
@@ -63,7 +63,7 @@ for d in "${domains[@]}"
 do
   echo $d
   mkdir /vol/certs/$d
-  cp /vol/letsencrypt/live/$d/* /vol/certs/$d/
+  yes | cp -f /vol/letsencrypt/live/$d/* /vol/certs/$d/
 done
 
 
