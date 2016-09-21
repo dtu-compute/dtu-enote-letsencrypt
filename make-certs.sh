@@ -30,5 +30,6 @@ cd /letsencrypt
 for d in ${alldomains[@]}
 do
   echo $d
+  echo "  ./letsencrypt-auto --agree-tos --email mttj@dtu.dk --non-interactive certonly --expand --webroot -w /var/www/letsencrypt -d $d"
   ./letsencrypt-auto --agree-tos --email mttj@dtu.dk --non-interactive certonly --expand --webroot -w /var/www/letsencrypt -d $d
 done
