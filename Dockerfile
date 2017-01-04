@@ -14,6 +14,7 @@ RUN mkdir -p /var/www/letsencrypt /var/www/html
 COPY nginx.conf   /etc/nginx/
 COPY default.conf /etc/nginx/conf.d/
 COPY index.html /var/www/html/
+COPY 404.html /var/www/html/
 COPY make-certs.sh /
 
 CMD ["nginx", "-g", "daemon off;"]
