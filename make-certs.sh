@@ -13,9 +13,9 @@ then
   courses=$(echo $2 | tr "," "\n")
 fi
 
-coursewebs=$(for i in ${courses[*]}; do printf "${i}-enote${url_suffix} "; done)
-courseaskbots=$(for i in ${courses[*]}; do printf "askbot-${i}-enote${url_suffix} "; done)
-coursesharelatexes=$(for i in ${courses[*]}; do printf "sharelatex-${i}-enote${url_suffix} "; done)
+coursewebs=$(for i in ${courses[*]}; do printf "${i}${url_suffix} "; done)
+courseaskbots=$(for i in ${courses[*]}; do printf "askbot-${i}${url_suffix} "; done)
+coursesharelatexes=$(for i in ${courses[*]}; do printf "sharelatex-${i}${url_suffix} "; done)
 
 domains=( "stackedit$url_suffix" "couchdb$url_suffix" "enote$url_suffix" "quiz$url_suffix" "letsencrypt$url_suffix" )
 
