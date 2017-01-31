@@ -1,4 +1,4 @@
-FROM fedora:23
+FROM fedora:24
 
 RUN ln -sf /usr/share/zoneinfo/Europe/Copenhagen /etc/localtime && \
     dnf -y update && dnf -y install git nginx && dnf clean all
