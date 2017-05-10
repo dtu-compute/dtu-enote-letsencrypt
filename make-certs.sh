@@ -1,25 +1,15 @@
 #!/bin/sh
 
-url_suffix='-staging.compute.dtu.dk'
-courses=()
-
-if [ -n "$1" ]
-then
-  url_suffix=$1
+if [ $# -ne 2 ]; then
+    # TODO: print usage
+    echo "Usage: make-certs.sh <url-suffix> <course;course;course>"
+    exit 1
 fi
 
-if [ -n "$2" ]
-then
-  courses=$(echo $2 | tr "," "\n")
-fi
+url_suffix=$1
+courses=($(echo $2 | tr "," "\n"))
 
-coursewebs=$(for i in ${courses[*]}; do printf "${i}${url_suffix} "; done)
-courseaskbots=$(for i in ${courses[*]}; do printf "askbot-${i}${url_suffix} "; done)
-coursesharelatexes=$(for i in ${courses[*]}; do printf "sharelatex-${i}${url_suffix} "; done)
-
-domains=( "stackedit$url_suffix" "couchdb$url_suffix" "enote$url_suffix" "quiz$url_suffix" "letsencrypt$url_suffix" )
-
-alldomains=( "${domains[@]}" "${coursewebs[@]}" "${courseaskbots[@]}" "${coursesharelatexes[@]}" )
+alldomains=( `./ls-certs.sh $*` )
 
 echo "Creating/Renewing certificates with URL suffix ${url_suffix} domains ${alldomains[@]}"
 
