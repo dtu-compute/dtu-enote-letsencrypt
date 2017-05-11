@@ -26,7 +26,7 @@ coursenoteesharelatexes=$(for i in ${courses[*]}; do printf "sharelatex-${i}-eno
 
 domains=( "enote$url_suffix" "quiz$url_suffix" "letsencrypt$url_suffix" )
 
-alldomains=( "${domains[@]}" "${coursewebs[@]}" "${courseaskbots[@]}" "${coursesharelatexes[@]}" )
+alldomains=( "${domains[@]}" "${coursewebs[@]}" "${courseenotewebs[@]}" "${coursesharelatexes[@]}" "${coursenoteesharelatexes[@]}" )
 
 course_arg=`IFS=',';echo "${courses[*]// /}";IFS=$' \t\n'`
 for d in ${alldomains[@]}
