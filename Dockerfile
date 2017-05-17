@@ -16,6 +16,9 @@ COPY default.conf /etc/nginx/conf.d/
 COPY index.html /var/www/html/
 COPY 404.html /var/www/html/
 COPY make-certs.sh /
+COPY make-cert.sh /
+COPY update-certs.sh /
+COPY ls-certs.sh /
 
 CMD ["nginx", "-g", "daemon off;"]
 

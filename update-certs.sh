@@ -10,7 +10,7 @@ courses=($(echo $2 | tr "," "\n"))
 
 alldomains=( `./ls-certs.sh $*` )
 
-echo "Creating certificates with URL suffix ${url_suffix} domains ${alldomains[@]}"
+echo "Renewing certificates with URL suffix ${url_suffix} domains ${alldomains[@]}"
 
 echo
 echo
@@ -20,7 +20,7 @@ cd /letsencrypt
 for d in ${alldomains[@]}
 do
   if [ ! -d /etc/letsencrypt/live/${domain} ]; then
-    echo "certificate folder for ${domain} exist! skipping.  Use update-certs.sh to create."
+    echo "certificate folder for ${domain} doesn't exist! skipping.  Use make-cert(s).sh to create."
     continue
   fi
   echo $d
