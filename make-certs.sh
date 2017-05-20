@@ -19,7 +19,7 @@ cd /letsencrypt
 
 for d in ${alldomains[@]}
 do
-  if [ ! -d /etc/letsencrypt/live/${d} ]; then
+  if [ -d /etc/letsencrypt/live/${d} ]; then
     echo "certificate folder for ${d} exist! skipping.  Use update-certs.sh to create."
     continue
   fi
